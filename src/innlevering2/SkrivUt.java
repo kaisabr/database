@@ -14,17 +14,17 @@ import java.sql.*;
 public class SkrivUt extends DBConn {
 	// i denne klassen skrives innholdet i databasen ut til bruker.
     
-    public void printTreningsøkt (String øktID) {
+    public void printTreningsøkt (String oektID) {
        try {
            Statement stmt = conn.createStatement();
-           String query = "select * from UTENDØRSØKT, TRENINGSØKT";
+           String query = "select * from UTENDOERSOEKT, TRENINGSOEKT";
            //System.out.println(query);
            
            ResultSet rs = stmt.executeQuery(query);
-           System.out.println("Oversikt: " + øktID);
+           System.out.println("Oversikt: " + oektID);
            while (rs.next()) {
 	    	//System.out.println("dato: " + rs.getString(1) + " tidspunkt: " + rs.getString(2));
-        	   System.out.println(String.format(" Tidspunkt: %s \n Varighet: %s \n Temperatur: %s \n Værtype: %s \n Kommentar: %s", rs.getString("TIDSPUNKT"), rs.getString("VARIGHETIMINUTTER"), rs.getString("TEMPERATUR"), rs.getString("VÆRTYPE"), rs.getString("NOTATER")));
+        	   System.out.println(String.format(" Tidspunkt: %s \n Varighet: %s \n Temperatur: %s \n Værtype: %s \n Kommentar: %s", rs.getString("TIDSPUNKT"), rs.getString("VARIGHETIMINUTTER"), rs.getString("TEMPERATUR"), rs.getString("VAERTYPE"), rs.getString("NOTATER")));
            }
             
      	} catch (Exception e) {

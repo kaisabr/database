@@ -39,9 +39,9 @@ public class Main {
        */
        
        
-        SkrivUt resultatCtrl = new SkrivUt ();
-        resultatCtrl.connect();
-        resultatCtrl.printTreningsøkt("1");
+        SkrivUt skrivUt = new SkrivUt ();
+        skrivUt.connect();
+        skrivUt.printTreningsøkt("1");
        
     }
 
