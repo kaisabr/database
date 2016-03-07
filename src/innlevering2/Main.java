@@ -10,6 +10,8 @@ package innlevering2;
  * @author sveinbra
  */
 public class Main {
+	
+	// i denne klassen kommuniserer programmet med brukeren via scanner.
 
     /**
      * @param args the command line arguments
