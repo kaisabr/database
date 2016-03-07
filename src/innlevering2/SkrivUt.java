@@ -14,7 +14,7 @@ import java.sql.*;
 public class SkrivUt extends DBConn {
 	// i denne klassen skrives innholdet i databasen ut til bruker.
     
-    public void printTreningsøkt (String oektID) {
+    public void printTreningsoekt (String oektID) {
        try {
            Statement stmt = conn.createStatement();
            String query = "select * from UTENDOERSOEKT, TRENINGSOEKT";

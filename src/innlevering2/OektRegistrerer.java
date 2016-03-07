@@ -11,12 +11,12 @@ public class OektRegistrerer {
 		oektID ++;
 	}
 	
-	public void utendørsøkt(String tidspunkt, String varighetIMinutter, String notater, String temperatur, String vaertype) {
+	public void utendoersoekt(String tidspunkt, String varighetIMinutter, String notater, String temperatur, String vaertype) {
 		//legger til i treningsøkt
 		treningsoekt(tidspunkt, varighetIMinutter, notater);
 	}
 	
-	public void innendørsøkt(String tidspunkt, String varighetIMinutter, String notater, String luftventilasjon, String luft) {
+	public void innendoersoekt(String tidspunkt, String varighetIMinutter, String notater, String luftventilasjon, String luft) {
 		//legger til i treningsøkt
 		treningsoekt(tidspunkt, varighetIMinutter, notater);
 	}

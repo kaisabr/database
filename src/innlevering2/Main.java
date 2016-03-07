@@ -41,7 +41,7 @@ public class Main {
        
         SkrivUt skrivUt = new SkrivUt ();
         skrivUt.connect();
-        skrivUt.printTreningsøkt("1");
+        skrivUt.printTreningsoekt("1");
        
     }
 
