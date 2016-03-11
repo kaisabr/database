@@ -4,6 +4,7 @@
  */
 
 package innlevering2;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.sql.*;
@@ -14,7 +15,7 @@ import java.sql.*;
  */
 public class Main extends DBConn {
 	
-	private HashMap <String, Integer> map = new HashMap<String, Integer>(); //Et HashMap som lager sammenhengen mellom forskjellige forespørsler og tall.
+	private ArrayList <String> codeWords = new ArrayList<String>(); //Et HashMap som lager sammenhengen mellom forskjellige forespørsler og tall.
 	public static Scanner sc = new Scanner(System.in);
 	
 	// i denne klassen kommuniserer programmet med brukeren via scanner.
@@ -23,9 +24,16 @@ public class Main extends DBConn {
      * @param args the command line arguments
      */
 	
+	public void fillArray(){
+		codeWords.add("addSession");
+		codeWords.add("retrieveResults");
+		codeWords.add("retrieveGoals");
+	}
+	
 	
     public static void main(String[] args) throws SQLException{
     	Main program = new Main();
+    	program.fillArray();
 		program.connect();  //Her kobler programmet seg til databasen. Legg merke til at connect-metoden arves fra DBConn.
 		String input;
 		
@@ -65,9 +73,8 @@ public class Main extends DBConn {
     
     public void parseRequest(String input) throws SQLException{
     	String request = input.substring(0, input.indexOf(' '));
-    	Integer reqNr = map.get(request);
     	
-    	if (reqNr == null) System.out.println("\n" + request + " er en ugyldig forespørsel."); //Skriver ut feilmelding hvis programmet ikke gjenkjenner kodeordet.
+    	if (!(codeWords.contains("request"))) System.out.println("\n" + request + " er en ugyldig forespørsel."); //Skriver ut feilmelding hvis programmet ikke gjenkjenner kodeordet.
     	
     	switch(request){
     		case "addSession": new OektRegistrerer();

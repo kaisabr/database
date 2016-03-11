@@ -8,8 +8,7 @@ public class OektRegistrerer extends DBConn {
 	private int oektID;
 	
 	public OektRegistrerer() throws SQLException{
-		oektID = getOektID();
-		deter
+		oektID = determineOektID();
 		
 		
 		
@@ -35,11 +34,12 @@ public class OektRegistrerer extends DBConn {
 	
 		
 	
-	public int getOektID() throws SQLException{
+	public int determineOektID() throws SQLException{
 		Statement stmt = conn.createStatement();
 		String query = "SELECT MAX(OEKTID) FROM TRENINGSOEKT";
 		ResultSet rs = stmt.executeQuery(query);
-		return rs.getInt("OEKTID");
+		int res = rs.getInt("OEKTID");
+		return res++;
 	}
 	
 	public void treningsoekt(String tidspunkt, String varighetIMinutter, String notater ) {
