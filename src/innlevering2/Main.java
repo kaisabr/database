@@ -15,7 +15,7 @@ import java.sql.*;
 public class Main extends DBConn {
 	
 	private HashMap <String, Integer> map = new HashMap<String, Integer>(); //Et HashMap som lager sammenhengen mellom forskjellige forespørsler og tall.
-	private static Scanner sc = new Scanner(System.in);
+	public static Scanner sc = new Scanner(System.in);
 	
 	// i denne klassen kommuniserer programmet med brukeren via scanner.
 
@@ -24,7 +24,7 @@ public class Main extends DBConn {
      */
 	
 	
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException{
     	Main program = new Main();
 		program.connect();  //Her kobler programmet seg til databasen. Legg merke til at connect-metoden arves fra DBConn.
 		String input;

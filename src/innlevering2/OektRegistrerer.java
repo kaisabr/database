@@ -9,14 +9,37 @@ public class OektRegistrerer extends DBConn {
 	
 	public OektRegistrerer() throws SQLException{
 		oektID = getOektID();
+		deter
+		
+		
+		
+		
+		System.out.println("Er økten ute (1) eller inne (2)? Svar: ");
+		Integer oektType;
+		String input;
+		boolean loopContinues = false;
+		
+		do{
+			input = Main.sc.nextLine();
+			oektType = Character.getNumericValue(input.charAt(0));
+			if (oektType != 1 && oektType != 2){
+				System.out.println("Ugyldig input.");
+				loopContinues = true;}
+			}while (loopContinues);
+		
+		switch(oektType){
+			case 1:
+		}
+		
 	}
+	
+		
 	
 	public int getOektID() throws SQLException{
 		Statement stmt = conn.createStatement();
 		String query = "SELECT MAX(OEKTID) FROM TRENINGSOEKT";
 		ResultSet rs = stmt.executeQuery(query);
-		
-		return 0;
+		return rs.getInt("OEKTID");
 	}
 	
 	public void treningsoekt(String tidspunkt, String varighetIMinutter, String notater ) {
