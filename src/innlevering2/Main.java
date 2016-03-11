@@ -4,19 +4,38 @@
  */
 
 package innlevering2;
+import java.util.HashMap;
+import java.util.Scanner;
+import java.sql.*;
 
 /**
  *
  * @author sveinbra
  */
-public class Main {
+public class Main extends DBConn {
+	
+	private HashMap <String, Integer> map = new HashMap<String, Integer>(); //Et HashMap som lager sammenhengen mellom forskjellige forespørsler og tall.
+	private static Scanner sc = new Scanner(System.in);
 	
 	// i denne klassen kommuniserer programmet med brukeren via scanner.
 
     /**
      * @param args the command line arguments
      */
+	
+	
     public static void main(String[] args) {
+    	Main program = new Main();
+		program.connect();  //Her kobler programmet seg til databasen. Legg merke til at connect-metoden arves fra DBConn.
+		String input;
+		
+		do{
+			input = sc.nextLine();
+			program.parseRequest(input); //Programmet tar inn mer og mer input helt til brukeren gir en blank linje. For hver linje, prøver programmet å tolke inputen.
+		}while (!(input.equals("")));
+		
+		sc.close();
+    	
         // TODO code application logic here
 
        /*
@@ -42,7 +61,23 @@ public class Main {
         SkrivUt skrivUt = new SkrivUt ();
         skrivUt.connect();
         skrivUt.printTreningsoekt("1");
-       
     }
+    
+    public void parseRequest(String input) throws SQLException{
+    	String request = input.substring(0, input.indexOf(' '));
+    	Integer reqNr = map.get(request);
+    	
+    	if (reqNr == null) System.out.println("\n" + request + " er en ugyldig forespørsel."); //Skriver ut feilmelding hvis programmet ikke gjenkjenner kodeordet.
+    	
+    	switch(request){
+    		case "addSession": new OektRegistrerer();
+    		case "retrieveResults": new HentResultat();
+    		case "retriveGoals": new HentMaal();
+    	}
+    }
+    
+    
+ 
+    
 
 }

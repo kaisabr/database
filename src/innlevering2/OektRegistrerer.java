@@ -1,10 +1,23 @@
 package innlevering2;
+import java.sql.*;
 
-public class OektRegistrerer {
+public class OektRegistrerer extends DBConn {
 
 	// I denne klassen legges øktene brukeren har registrert i databasen.
 	
-	public static int oektID = 1;
+	private int oektID;
+	
+	public OektRegistrerer() throws SQLException{
+		oektID = getOektID();
+	}
+	
+	public int getOektID() throws SQLException{
+		Statement stmt = conn.createStatement();
+		String query = "SELECT MAX(OEKTID) FROM TRENINGSOEKT";
+		ResultSet rs = stmt.executeQuery(query);
+		
+		return 0;
+	}
 	
 	public void treningsoekt(String tidspunkt, String varighetIMinutter, String notater ) {
 		// registrerer en treningsøkt
