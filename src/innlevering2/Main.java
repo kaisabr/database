@@ -34,7 +34,6 @@ public class Main extends DBConn {
     public static void main(String[] args) throws SQLException{
     	Main program = new Main();
     	program.fillArray();
-		program.connect();  //Her kobler programmet seg til databasen. Legg merke til at connect-metoden arves fra DBConn.
 		String input;
 		
 		do{
@@ -72,14 +71,14 @@ public class Main extends DBConn {
     }
     
     public void parseRequest(String input) throws SQLException{
-    	String request = input.substring(0, input.indexOf(' '));
+    	String request = input;
     	
     	if (!(codeWords.contains("request"))) System.out.println("\n" + request + " er en ugyldig forespørsel."); //Skriver ut feilmelding hvis programmet ikke gjenkjenner kodeordet.
     	
     	switch(request){
     		case "addSession": new OektRegistrerer();
-    		case "retrieveResults": new HentResultat();
-    		case "retriveGoals": new HentMaal();
+    		case "retrieveResults": new ResultatHenter();
+    		case "retriveGoals": new MaalHenter();
     	}
     }
     
