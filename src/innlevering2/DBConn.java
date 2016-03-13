@@ -4,12 +4,10 @@
  */
 
 package innlevering2;
-
 /**
  *
  * @author Svein Erik
  */
-
 import java.sql.*;
 import java.util.Properties;
 
@@ -22,8 +20,8 @@ public abstract class DBConn {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             // Properties for user and password.
             Properties p = new Properties();
-            p.put("user", "kaisabr");
-            p.put("password", "Kaisa!95");           
+            p.put("user", "magnublo");
+            p.put("password", "passord");           
 	    //            conn = DriverManager.getConnection("jdbc:mysql://mysql.ansatt.ntnu.no/sveinbra_ektdb?autoReconnect=true&useSSL=false",p);
             conn = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no/aashilb_treningsdagbok?autoReconnect=true&useSSL=false",p);
         } catch (Exception e)

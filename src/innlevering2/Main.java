@@ -72,13 +72,20 @@ public class Main extends DBConn {
     
     public void parseRequest(String input) throws SQLException{
     	String request = input;
+    	boolean containsWord = false;
     	
-    	if (!(codeWords.contains("request"))) System.out.println("\n" + request + " er en ugyldig forespørsel."); //Skriver ut feilmelding hvis programmet ikke gjenkjenner kodeordet.
+    	for (String s : codeWords){
+    		if ((s.equals(input))){
+    			containsWord = true;
+    		}
+    	}
+    	
+    	if (!(containsWord)) System.out.println("\n" + request + " er en ugyldig forespørsel."); //Skriver ut feilmelding hvis programmet ikke gjenkjenner kodeordet.
     	
     	switch(request){
     		case "addSession": new OektRegistrerer();
     		case "retrieveResults": new ResultatHenter();
-    		case "retriveGoals": new MaalHenter();
+    		case "retrieveGoals": new MaalHenter();
     	}
     }
     

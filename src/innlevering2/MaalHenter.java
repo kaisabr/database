@@ -1,11 +1,13 @@
 package innlevering2;
 
-
+import java.sql.*;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Maalhenter {
-  Maalhenter() {	
+public class MaalHenter extends DBConn{
+  MaalHenter() throws SQLException{	
+	  connect();
+	  
     System.out.println("For hvilke øvelse ønsker du å hente ut mål?");
 		String exercise = Main.sc.nextLine();
 		System.out.println("Skriv inn startdato for progresjonsmålingen, på formen åååå-mm-dd: ");

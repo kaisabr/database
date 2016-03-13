@@ -4,17 +4,31 @@ import java.sql.*;
 
 public class OektRegistrerer extends DBConn {
 
-	// I denne klassen legges Ã¸ktene brukeren har registrert i databasen.
+	// I denne klassen legges oektene brukeren har registrert i databasen.
 
 	private int oektID;
 
 	public OektRegistrerer() throws SQLException {
-		connect(); // Her kobler programmet seg til databasen. Legg merke til at
-					// connect-metoden arves fra DBConn.
+		connect(); // Her kobler programmet seg til databasen. Legg merke til at connect-metoden arves fra DBConn.
+		treningsoekt();
+	}
+
+	public int determineOektID() throws SQLException {
+		Statement stmt = conn.createStatement();
+		String query = "SELECT MAX(OEKTID) FROM TRENINGSOEKT";
+		ResultSet rs = stmt.executeQuery(query);
+		int res = rs.getInt("OEKTID");
+		return res++;
+	}
+
+	public void treningsoekt() throws SQLException{
 		oektID = determineOektID();
 
-		// Her skal det lages en treningsoekt.
-
+		String timeStamp = getTimeStamp();
+		String duration = getDuration();
+		String personalForm = getPersonalForm();
+		String notes = getNotes();
+		
 		System.out.println("Er økten ute (1) eller inne (2)? Svar: ");
 		Integer oektType;
 		String input;
@@ -30,24 +44,63 @@ public class OektRegistrerer extends DBConn {
 		} while (loopContinues);
 
 		switch (oektType) {
-		case 1: // lag innendørstøkt
-		case 2: // lag utendørsøkt
+			case 1: // lag innendørstøkt
+			case 2: // lag utendørsøkt
 		}
-
 	}
 
-	public int determineOektID() throws SQLException {
-		Statement stmt = conn.createStatement();
-		String query = "SELECT MAX(OEKTID) FROM TRENINGSOEKT";
-		ResultSet rs = stmt.executeQuery(query);
-		int res = rs.getInt("OEKTID");
-		return res++;
+	private String getNotes() {
+		System.out.println("Skriv inn notater på en linje: \n");
+		return Main.sc.nextLine();
 	}
 
-	public void treningsoekt(String tidspunkt, String varighetIMinutter,
-			String notater) {
-		// registrerer en treningsÃ¸kt
-		oektID++;
+	private String getTimeStamp() {
+		String input;
+		boolean loopContinues = false;
+		
+		System.out.println("Skriv inn starttidspunkt for treningsøkten på formatet ÅÅÅÅ-MM-DD TT-MM-SS:");
+		
+		do {
+			input = Main.sc.nextLine();
+			if (input.length() != 19) {
+				System.out.println("Ugyldig input. Skriv inn på nytt.");
+				loopContinues = true;
+			}
+		} while (loopContinues);
+		
+		return input;
+	}
+
+	private String getDuration() {
+		String input;
+		boolean loopContinues = false;
+		
+		System.out.println("Skriv inn starttidspunkt for treningsøkten på formatet ÅÅÅÅ-MM-DD TT-MM-SS:");
+		
+		do {
+			input = Main.sc.nextLine();
+			if (input.length() != 5) {
+				System.out.println("Ugyldig input. Skriv inn på nytt.");
+				loopContinues = true;
+			}
+		} while (loopContinues);
+		
+		return input;
+	}
+
+	private String getPersonalForm() {
+		String input;
+		boolean loopContinues = false;
+
+		do {
+			input = Main.sc.nextLine();
+			if (input.length() > 1 || !Character.isDigit(input.charAt(0))) {
+				System.out.println("Ugyldig input.");
+				loopContinues = true;
+			}
+		} while (loopContinues);
+		
+		return form;
 	}
 
 	public void utendoersoekt(String tidspunkt, String varighetIMinutter,
