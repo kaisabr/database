@@ -1,10 +1,14 @@
 package innlevering2;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 public class ResultatHenter extends DBConn{
 	
 	// Henter resultatet fra en økt
 	
-	public ResultatRegistrerer() throws SQLException{
+	public  void ResultatRegistrerer() throws SQLException{
 		connect();
 		
 		String input;
@@ -16,12 +20,12 @@ public class ResultatHenter extends DBConn{
 		do{
 			input = Main.sc.nextLine();
 			oektantall = Character.getNumericValue(input.charAt(0));
-			if(input != 1 && input != 2){
+			if(oektantall != 1 && oektantall != 2){
 				System.out.println("Ugyldig input.");
 				loopContinues = true;
 			}
 		
-		while(loopContinues);
+		} while(loopContinues);
 		
 		switch(oektantall) {
 		case 1: //hent ut resultat fra én økt
@@ -37,28 +41,23 @@ public class ResultatHenter extends DBConn{
 			
 			System.out.println(resultatType(oektID));
 
-			
-			
-			
-			
 		case 2: // hent ut resultat fra flere økter
 			System.out.println("Skriv inn dato til foeste oekt du ønsker resultat fra, og faa ut alle paafoelgende oekter. Dato paa format yyyy-mm-dd.");
 			String dato = Main.sc.nextLine();
-			Statement stmt = conn.createStatement();
+			Statement stmt2 = conn.createStatement();
 			String finnOektID = "SELECT R.OEKTID FROM TRENINGSOEKT AS T, RESULTAT AS R WHERE T.DATO >=" + dato;
-			ResultSet result = stmt.executeQuery(query);
+			ResultSet result = stmt2.executeQuery(finnOektID);
 			while (result.next()){
 				System.out.println(resultatType(finnOektID));
 			}			
 			
 		}
 	}
-	}
-		
+	
 	
 	// Finner ut om oektIDen horer til en styrkeoekt, en utholdenshetsoekt eller en kondisjonsoekt
 
-	public String resultatType(String oektID){
+	public String resultatType(String oektID) throws SQLException{
 		String query1 = "SELECT * FROM RESULTAT WHERE RESULTAT."+oektID+"= TRENINGSØKT."+ oektID+"JOIN STYRKERESULTAT";
 		String query2 = "SELECT * FROM RESULTAT WHERE RESULTAT."+oektID+"= TRENINGSØKT."+ oektID+"JOIN UTHOLDENSHETSRESULTAT";
 		String query3 = "SELECT * FROM RESULTAT WHERE RESULTAT."+oektID+"= TRENINGSØKT."+ oektID+"JOIN KONDISJONSRESULTAT";
@@ -68,7 +67,7 @@ public class ResultatHenter extends DBConn{
 		ResultSet rs3 = stmt.executeQuery(query3);
 		
 		if (rs1.next()){
-			String styrkeoekt;
+			String styrkeoekt = "";
 			styrkeoekt = (String.format("Resultat for styrkeoekt:"));
 			styrkeoekt += (String.format("Belastning:", rs1.getString("BELASTNING")));
 			styrkeoekt += (String.format("Antall repetisjoner:", rs1.getString("ANTALLREPETISJONER")));
@@ -77,7 +76,7 @@ public class ResultatHenter extends DBConn{
 		}
 		
 		else if(rs2.next()){
-			String utholdenhetsoekt;
+			String utholdenhetsoekt = "";
 			utholdenhetsoekt += (String.format("Resultat for utholdenhetsresultat:"));
 			utholdenhetsoekt += (String.format("Lengde:", rs2.getString("LENGDE")));
 			utholdenhetsoekt += (String.format("Varighet i minutter:", rs2.getString("VARIGHETIMINUTTER")));
@@ -87,12 +86,16 @@ public class ResultatHenter extends DBConn{
 		}
 		
 		else if(rs3.next()){
-			String kondisjonsoekt;
+			String kondisjonsoekt = "";
 			kondisjonsoekt += (String.format("Resultat for kondisjonsresultat:"));
 			kondisjonsoekt += (String.format("Belastning:", rs3.getString("BELASTNING")));
 			kondisjonsoekt += (String.format("Antall repetisjoner:", rs3.getString("ANTALLREPETISJONER")));
 			kondisjonsoekt += (String.format("Antall sett:", rs3.getString("ANTALLSETT")));
 			return kondisjonsoekt; 
+		}
+		
+		else {
+			return "Ingen registerte oekter";
 		}
 	}
 	
