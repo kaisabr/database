@@ -6,9 +6,7 @@ import java.sql.Statement;
 
 public class ResultatHenter extends DBConn{
 	
-	// Henter resultatet fra en økt
-	
-	public  void ResultatRegistrerer() throws SQLException{
+	public ResultatHenter() throws SQLException{
 		connect();
 		
 		String input;
@@ -40,7 +38,8 @@ public class ResultatHenter extends DBConn{
 			}
 			
 			System.out.println(resultatType(oektID));
-
+			return;
+			
 		case 2: // hent ut resultat fra flere økter
 			System.out.println("Skriv inn dato til foeste oekt du ønsker resultat fra, og faa ut alle paafoelgende oekter. Dato paa format yyyy-mm-dd.");
 			String dato = Main.sc.nextLine();
