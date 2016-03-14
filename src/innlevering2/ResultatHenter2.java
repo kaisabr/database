@@ -45,6 +45,7 @@ public class ResultatHenter2 extends DBConn{
 			return;
 			
 		case 2: printHistory();
+				System.out.println("\n");
 				return;
 		}
 	}
