@@ -6,6 +6,12 @@ import java.sql.Statement;
 
 public class ResultatHenter extends DBConn{
 	
+	ResultSet rs1;
+	ResultSet rs2;
+	ResultSet rs3;
+	String oektID;
+	String newline = System.getProperty("line.separator");
+	
 	public ResultatHenter() throws SQLException{
 		connect();
 		
@@ -28,9 +34,9 @@ public class ResultatHenter extends DBConn{
 		switch(oektantall) {
 		case 1: //hent ut resultat fra én økt
 			System.out.println("Hvilken oektID oensker du resultatet fra? Skriv et tall oektID.");
-			String oektID = Main.sc.nextLine();
+			oektID = Main.sc.nextLine();
 			Statement stmt = conn.createStatement();
-			String query = "SELECT * FROM RESULTAT WHERE RESULTAT."+oektID+"= TRENINGSØKT."+ oektID;
+			String query = "SELECT * FROM RESULTAT, TRENINGSOEKT WHERE RESULTAT.OEKTID = TRENINGSOEKT.OEKTID AND TRENINGSOEKT.OEKTID ="+ oektID;
 			ResultSet rs = stmt.executeQuery(query);
 			
 			if (! rs.next()){
@@ -41,10 +47,10 @@ public class ResultatHenter extends DBConn{
 			return;
 			
 		case 2: // hent ut resultat fra flere økter
-			System.out.println("Skriv inn dato til foeste oekt du ønsker resultat fra, og faa ut alle paafoelgende oekter. Dato paa format yyyy-mm-dd.");
-			String dato = Main.sc.nextLine();
+			System.out.println("Skriv inn tidspunkt til foeste oekt du ønsker resultat fra, og faa ut alle paafoelgende oekter. Tidspunkt paa format yyyy-mm-dd tt.mm.ss.");
+			String tidspunkt = Main.sc.nextLine();
 			Statement stmt2 = conn.createStatement();
-			String finnOektID = "SELECT R.OEKTID FROM TRENINGSOEKT AS T, RESULTAT AS R WHERE T.DATO >=" + dato;
+			String finnOektID = "SELECT RESTULTAT.OEKTID FROM TRENINGSOEKT, RESULTAT WHERE TRENINGSOEKT.TIDSPUNKT >="+tidspunkt;
 			ResultSet result = stmt2.executeQuery(finnOektID);
 			while (result.next()){
 				System.out.println(resultatType(finnOektID));
@@ -57,44 +63,83 @@ public class ResultatHenter extends DBConn{
 	// Finner ut om oektIDen horer til en styrkeoekt, en utholdenshetsoekt eller en kondisjonsoekt
 
 	public String resultatType(String oektID) throws SQLException{
-		String query1 = "SELECT * FROM RESULTAT WHERE RESULTAT."+oektID+"= TRENINGSØKT."+ oektID+"JOIN STYRKERESULTAT";
-		String query2 = "SELECT * FROM RESULTAT WHERE RESULTAT."+oektID+"= TRENINGSØKT."+ oektID+"JOIN UTHOLDENSHETSRESULTAT";
-		String query3 = "SELECT * FROM RESULTAT WHERE RESULTAT."+oektID+"= TRENINGSØKT."+ oektID+"JOIN KONDISJONSRESULTAT";
-		Statement stmt = conn.createStatement();
-		ResultSet rs1 = stmt.executeQuery(query1);
-		ResultSet rs2 = stmt.executeQuery(query2);
-		ResultSet rs3 = stmt.executeQuery(query3);
 		
-		if (rs1.next()){
+		if (checkStyrkeresultat()){
 			String styrkeoekt = "";
 			styrkeoekt = (String.format("Resultat for styrkeoekt:"));
-			styrkeoekt += (String.format("Belastning:", rs1.getString("BELASTNING")));
-			styrkeoekt += (String.format("Antall repetisjoner:", rs1.getString("ANTALLREPETISJONER")));
-			styrkeoekt += (String.format("Antall sett:", rs1.getString("ANTALLSETT")));
+			styrkeoekt += newline;
+			styrkeoekt += (String.format("Belastning: %s", rs1.getString("BELASTNING")));
+			styrkeoekt += newline;
+			styrkeoekt += (String.format("Antall repetisjoner: %s", rs1.getString("ANTALLREPETISJONER")));
+			styrkeoekt += newline;
+			styrkeoekt += (String.format("Antall sett: %s", rs1.getString("ANTALLSETT")));
 			return styrkeoekt;
 		}
 		
-		else if(rs2.next()){
+		else if(checkUtholdenhetsresultat()){
 			String utholdenhetsoekt = "";
 			utholdenhetsoekt += (String.format("Resultat for utholdenhetsresultat:"));
-			utholdenhetsoekt += (String.format("Lengde:", rs2.getString("LENGDE")));
-			utholdenhetsoekt += (String.format("Varighet i minutter:", rs2.getString("VARIGHETIMINUTTER")));
-			utholdenhetsoekt += (String.format("Hastighet:", rs2.getString("HASTIGHET")));
-			utholdenhetsoekt += (String.format("Puls:", rs2.getString("PULS")));
+			utholdenhetsoekt += newline;
+			utholdenhetsoekt += (String.format("Lengde: %s", rs2.getString("LENGDE")));
+			utholdenhetsoekt += newline;
+			utholdenhetsoekt += (String.format("Varighet i minutter: %s", rs2.getString("VARIGHETIMINUTTER")));
+			utholdenhetsoekt += newline;
+			utholdenhetsoekt += (String.format("Hastighet: %s", rs2.getString("HASTIGHET")));
+			utholdenhetsoekt += newline;
+			utholdenhetsoekt += (String.format("Puls: %s", rs2.getString("PULS")));
 			return utholdenhetsoekt;
 		}
 		
-		else if(rs3.next()){
+		else if(checkKondisjonsresultat()){
 			String kondisjonsoekt = "";
 			kondisjonsoekt += (String.format("Resultat for kondisjonsresultat:"));
-			kondisjonsoekt += (String.format("Belastning:", rs3.getString("BELASTNING")));
-			kondisjonsoekt += (String.format("Antall repetisjoner:", rs3.getString("ANTALLREPETISJONER")));
-			kondisjonsoekt += (String.format("Antall sett:", rs3.getString("ANTALLSETT")));
+			kondisjonsoekt += newline;
+			kondisjonsoekt += (String.format("Belastning: %s", rs3.getString("BELASTNING")));
+			kondisjonsoekt += newline;
+			kondisjonsoekt += (String.format("Antall repetisjoner: %s", rs3.getString("ANTALLREPETISJONER")));
+			kondisjonsoekt += newline;
+			kondisjonsoekt += (String.format("Antall sett: %s", rs3.getString("ANTALLSETT")));
 			return kondisjonsoekt; 
 		}
 		
 		else {
 			return "Ingen registerte oekter";
+		}
+	}
+	
+	public boolean checkStyrkeresultat() throws SQLException{
+		String query1 = "SELECT * FROM RESULTAT, TRENINGSOEKT, STYRKERESULTAT WHERE RESULTAT.OEKTID = TRENINGSOEKT.OEKTID AND STYRKERESULTAT.OEKTID = TRENINGSOEKT.OEKTID AND RESULTAT.OEKTID = "+oektID;
+		Statement stmt = conn.createStatement();
+		rs1 = stmt.executeQuery(query1);
+		if(rs1.next()){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public boolean checkUtholdenhetsresultat() throws SQLException{
+		String query2 = "SELECT * FROM RESULTAT, TRENINGSOEKT, UTHOLDENSHETRESULTAT WHERE RESULTAT.OEKTID = TRENINGSOEKT.OEKTID AND UTHOLDENSHETRESULTAT.OEKTID = TRENINGSOEKT.OEKTID AND RESULTAT.OEKTID="+oektID;
+		Statement stmt = conn.createStatement();
+		rs2 = stmt.executeQuery(query2);
+		if(rs2.next()){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public boolean checkKondisjonsresultat() throws SQLException{
+		String query3 = "SELECT * FROM RESULTAT, TRENINGSOEKT, KONDISJONSRESULTAT WHERE RESULTAT.OEKTID = TRENINGSOEKT.OEKTID AND KONDISJONSRESULTAT.OEKTID = TRENINGSOEKT.OEKTID AND RESULTAT.OEKTID="+oektID;
+		Statement stmt = conn.createStatement();
+		rs3 = stmt.executeQuery(query3);
+		if(rs3.next()){
+			return true;
+		}
+		else{
+			return false;
 		}
 	}
 	
