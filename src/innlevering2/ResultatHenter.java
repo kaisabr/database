@@ -30,7 +30,7 @@ public class ResultatHenter extends DBConn{
 			System.out.println("Hvilken oektID oensker du resultatet fra? Skriv et tall oektID.");
 			String oektID = Main.sc.nextLine();
 			Statement stmt = conn.createStatement();
-			String query = "SELECT * FROM RESULTAT WHERE RESULTAT."+oektID+"= TRENINGSØKT."+ oektID;
+			String query = "SELECT * FROM RESULTAT, TRENINGSOEKT WHERE RESULTAT."+oektID+"= TRENINGSOEKT."+ oektID;
 			ResultSet rs = stmt.executeQuery(query);
 			
 			if (! rs.next()){
@@ -57,9 +57,9 @@ public class ResultatHenter extends DBConn{
 	// Finner ut om oektIDen horer til en styrkeoekt, en utholdenshetsoekt eller en kondisjonsoekt
 
 	public String resultatType(String oektID) throws SQLException{
-		String query1 = "SELECT * FROM RESULTAT WHERE RESULTAT."+oektID+"= TRENINGSØKT."+ oektID+"JOIN STYRKERESULTAT";
-		String query2 = "SELECT * FROM RESULTAT WHERE RESULTAT."+oektID+"= TRENINGSØKT."+ oektID+"JOIN UTHOLDENSHETSRESULTAT";
-		String query3 = "SELECT * FROM RESULTAT WHERE RESULTAT."+oektID+"= TRENINGSØKT."+ oektID+"JOIN KONDISJONSRESULTAT";
+		String query1 = "SELECT * FROM RESULTAT WHERE RESULTAT."+oektID+"= TRENINGSOEKT."+ oektID+"JOIN STYRKERESULTAT";
+		String query2 = "SELECT * FROM RESULTAT WHERE RESULTAT."+oektID+"= TRENINGSOEKT."+ oektID+"JOIN UTHOLDENSHETSRESULTAT";
+		String query3 = "SELECT * FROM RESULTAT WHERE RESULTAT."+oektID+"= TRENINGSOEKT."+ oektID+"JOIN KONDISJONSRESULTAT";
 		Statement stmt = conn.createStatement();
 		ResultSet rs1 = stmt.executeQuery(query1);
 		ResultSet rs2 = stmt.executeQuery(query2);
