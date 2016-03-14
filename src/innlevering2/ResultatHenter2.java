@@ -38,7 +38,7 @@ public class ResultatHenter2 extends DBConn{
 			ResultSet rs = stmt.executeQuery(query);
 			
 			if (! rs.next()){
-				System.out.println("Resultat for denne øktID finnes ikke.");
+				System.out.println("\nResultat for denne øktID finnes ikke.");
 			}
 			
 			System.out.println(resultatType(oektID, rs));
@@ -92,7 +92,7 @@ public class ResultatHenter2 extends DBConn{
 
 	public String printStrength(ResultSet rs) throws SQLException{
 		String styrkeoekt = "";
-		styrkeoekt = (String.format("Resultat for styrkeoekt:"));
+		styrkeoekt = (String.format("\nResultat for styrkeoekt:"));
 		styrkeoekt += newline;
 		styrkeoekt += (String.format("Belastning: %s", rs.getString("BELASTNING")));
 		styrkeoekt += newline;
@@ -104,7 +104,7 @@ public class ResultatHenter2 extends DBConn{
 	
 	public String printEndurance(ResultSet rs) throws SQLException{
 		String utholdenhetsoekt = "";
-		utholdenhetsoekt += (String.format("Resultat for utholdenhetsresultat:"));
+		utholdenhetsoekt += (String.format("\nResultat for utholdenhetsresultat:"));
 		utholdenhetsoekt += newline;
 		utholdenhetsoekt += (String.format("Lengde: %s", rs.getString("LENGDE")));
 		utholdenhetsoekt += newline;
@@ -118,7 +118,7 @@ public class ResultatHenter2 extends DBConn{
 	
 	public String printStamina(ResultSet rs) throws SQLException{
 		String kondisjonsoekt = "";
-		kondisjonsoekt += (String.format("Resultat for kondisjonsresultat:"));
+		kondisjonsoekt += (String.format("\nResultat for kondisjonsresultat:"));
 		kondisjonsoekt += newline;
 		kondisjonsoekt += (String.format("Belastning: %s", rs.getString("BELASTNING")));
 		kondisjonsoekt += newline;
