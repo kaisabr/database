@@ -46,7 +46,7 @@ public class Main extends DBConn {
     		case "1": {new OektRegistrerer();
     			return;
     		}
-    		case "2":{ new ResultatHenter();
+    		case "2":{ new ResultatHenter2();
 			return;
 		}
     		case "3":{ new MaalHenter();
